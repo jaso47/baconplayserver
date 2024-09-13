@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bacon Play Server</title>
+    <style>
+        @font-face {
+            font-family: 'x14y24pxheadupdaisyregular';
+            src: url('x14y24pxheadupdaisy-webfont.woff2') format('woff2'),
+                 url('x14y24pxheadupdaisy-webfont.woff') format('woff'),
+                 url('x14y24pxheadupdaisy-webfont.ttf') format('truetype'),
+                 url('x14y24pxheadupdaisy-webfont.svg#x14y24pxheadupdaisyregular') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            font-family: 'x14y24pxheadupdaisyregular';
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: url('baconbanner.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        header {
+           background-color: #000;
+           color: white;
+           padding: 20px;
+           position: relative;
+           border: none;
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+        }
+        .header-links {
+            display: flex;
+            gap: 20px;
+        }
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .header-links a:hover {
+            text-decoration: underline;
+        }
+        .header-info {
+            display: flex;
+            align-items: center;
+        }
+        .ip-address {
+             font-size: 12px;
+             color: gray;
+             margin-left: -980px;
+        } 
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-container img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        .logo-container span {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 20px;
+            position: relative;
+        }
+        .mod-list {
+            width: 300px;
+            height: auto;
+            position: absolute;
+            left: 50px;
+            top: 0;
+        }
+        .mod-list h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .mod-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .mod-list li {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .mod-list a {
+            color: white;
+            text-decoration: none;
+        }
+        .mod-list a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            background-color: #000;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo-container">
+        <img src="logo.png" alt="Логотип">
+        <span>BACON PLAY SERVER</span>
+    </div>
+    <div class="header-info">
+        <span class="ip-address">IP on youtube!</span>
+    </div>
+    <div class="header-links">
+        <a href="wall_of_history.html" class="wall-of-history-link">Wall of History</a>
+        <a href="https://www.youtube.com/@Bacon_Play_Original" target="_blank" class="youtube-link">YouTube</a>
+    </div>
+</header>
+
+    
+    <main>
+        <div class="mod-list">
+            <h3>Mod list</h3>
+            <ul>
+                <li><a href="https://ru-minecraft.ru/mody-minecraft/78938-antlers-the-wendigo.html" target="_blank">Antlers - The Wendigo</a></li>
+                <li><a href="https://www.curseforge.com/minecraft/mc-mods/autizmz-rake/download/5598087" target="_blank">The rake</a></li>
+                <li><a href="https://minecraft-inside.ru/mods/146483-geckolib.html" target="_blank">Geckolib</a></li>
+                <li><a href="https://ru-minecraft.ru/mody-minecraft/78068-cave-dweller.html" target="_blank">Cave Dweller</a></li>
+                <li><a href="https://minecraft-inside.ru/mods/171952-the-man-from-the-fog.html" target="_blank">The Man From The Fog</a></li>
+                <li><a href="lopata.jar">Lopata Dinara</a></li>
+            </ul>
+        </div>
+    </main>
+    
+    <footer>
+        <p>Coperight &copy; jaso / C100417 / Bacon Play.</p>
+    </footer>
+</body>
+</html>

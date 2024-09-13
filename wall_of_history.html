@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bacon Play Server</title>
+    <style>
+        @font-face {
+            font-family: 'x14y24pxheadupdaisyregular';
+            src: url('x14y24pxheadupdaisy-webfont.woff2') format('woff2'),
+                 url('x14y24pxheadupdaisy-webfont.woff') format('woff'),
+                 url('x14y24pxheadupdaisy-webfont.ttf') format('truetype'),
+                 url('x14y24pxheadupdaisy-webfont.svg#x14y24pxheadupdaisyregular') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            font-family: 'x14y24pxheadupdaisyregular';
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: url('baconbanner.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #000;
+            color: white;
+            padding: 20px;
+            position: relative;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-links {
+            display: flex;
+            gap: 20px;
+        }
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .header-links a:hover {
+            text-decoration: underline;
+        }
+        .header-info {
+            display: flex;
+            align-items: center;
+        }
+        .ip-address {
+             font-size: 12px;
+             color: gray;
+             margin-left: -1030px;
+        } 
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-container img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        .logo-container span {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .main-img {
+            max-width: 80%;
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            color: white;
+            background-color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+        }
+        .btn:hover {
+            background-color: #555;
+        }
+        footer {
+            background-color: #000;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo-container">
+        <img src="logo.png" alt="Логотип">
+        <span>BACON PLAY SERVER</span>
+    </div>
+    <div class="header-info">
+        <span class="ip-address">IP on youtube!</span>
+    </div>
+    <div class="header-links">
+        <a href="index.html" class="wall-of-history-link">Mods</a>
+        <a href="https://www.youtube.com/@Bacon_Play_Original" target="_blank" class="youtube-link">YouTube</a>
+    </div>
+</header>
+    
+    <main>
+        <h2>History :)</h2>
+        <img src="1.jpg" alt="picture1" class="main-img">
+    </main>
+    
+    <footer>
+        <p>Copyright &copy; jaso / C100417 / Bacon Play.</p>
+    </footer>
+</body>
+</html>
