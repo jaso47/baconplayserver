@@ -78,13 +78,15 @@
             text-align: center;
             padding: 20px;
         }
-        img {
-            max-width: 100%;
-            height: auto;
+        .image-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Расстояние между картинками */
+            margin-top: 20px;
         }
         .main-img {
-            max-width: 80%;
-            margin-top: 20px;
+            max-width: 45%; /* Ограничиваем размер, чтобы картинки помещались */
+            height: auto;
         }
         .btn {
             display: inline-block;
@@ -123,13 +125,16 @@
     </div>
 </header>
     
-    <main>
-        <h2>History :)</h2>
+<main>
+    <h2>History :)</h2>
+    <div class="image-container">
         <img src="1.jpg" alt="picture1" class="main-img">
-    </main>
+        <img src="2.jpg" alt="picture2" class="main-img">
+    </div>
+</main>
     
-    <footer>
-        <p>Copyright &copy; jaso / C100417 / Bacon Play.</p>
-    </footer>
+<footer>
+    <p>Copyright &copy; jaso / C100417 / Bacon Play.</p>
+</footer>
 </body>
 </html>
