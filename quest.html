@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Идеи для сервера</title>
+    <style>
+        @font-face {
+            font-family: 'x14y24pxheadupdaisyregular';
+            src: url('x14y24pxheadupdaisy-webfont.woff2') format('woff2'),
+                 url('x14y24pxheadupdaisy-webfont.woff') format('woff'),
+                 url('x14y24pxheadupdaisy-webfont.ttf') format('truetype'),
+                 url('x14y24pxheadupdaisy-webfont.svg#x14y24pxheadupdaisyregular') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            font-family: 'x14y24pxheadupdaisyregular';
+            margin: 0;
+            padding: 0;
+            background-color: #282c34;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #000;
+            color: white;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+        }
+        main {
+            width: 80%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        input[type="text"], input[type="password"] {
+            font-family: 'x14y24pxheadupdaisyregular';
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            font-family: 'x14y24pxheadupdaisyregular';
+            padding: 10px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .ideas-list {
+            margin-top: 20px;
+            list-style-type: none;
+            padding: 0;
+        }
+        .ideas-list li {
+            background-color: #333;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .idea-author {
+            font-size: 12px;
+            color: gray;
+            margin-left: 10px;
+        }
+        .delete-btn {
+            background-color: red;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: darkred;
+        }
+        #profileButton {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #profileButton:hover {
+            background-color: #0056b3;
+        }
+        #profilePanel {
+            display: none;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Идеи для сервера</h1>
+        <button id="profileButton">Профиль</button>
+    </header>
+    <main>
+        <form id="loginForm">
+            <h3>Вход</h3>
+            <input type="text" id="loginUsername" placeholder="Введите ник" required>
+            <input type="password" id="loginPassword" placeholder="Введите пароль" required>
+            <button type="submit">Войти</button>
+            <button type="button" id="recoverAccount">Забыли пароль?</button>
+            <button type="button" id="goToRegister">Не зарегистрированы?</button>
+        </form>
+        <form id="registrationForm" style="display:none;">
+            <h3>Регистрация</h3>
+            <input type="text" id="regUsername" placeholder="Введите ник" required>
+            <input type="password" id="regPassword" placeholder="Введите пароль" required>
+            <input type="text" id="regPhoneModel" placeholder="Марка твоего телефона" required>
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+        <form id="recoveryForm" style="display:none;">
+            <h3>Восстановление аккаунта</h3>
+            <input type="text" id="recoverUsername" placeholder="Введите ник" required>
+            <input type="text" id="recoverPhoneModel" placeholder="Марка твоего телефона" required>
+            <button type="submit">Восстановить</button>
+        </form>
+        <form id="ideaForm" style="display:none;">
+            <input type="text" id="ideaInput" placeholder="Напишите вашу идею..." required>
+            <button type="submit">Отправить</button>
+        </form>
+        <ul id="ideasList" class="ideas-list"></ul>
+        <form id="profilePanel">
+            <h3>Редактирование профиля</h3>
+            <input type="text" id="newNickname" placeholder="Новый ник">
+            <input type="password" id="newPassword" placeholder="Новый пароль">
+            <input type="text" id="profilePhoneModel" placeholder="Марка вашего телефона" required>
+            <button type="submit">Сохранить изменения</button>
+        </form>
+    </main>
+    <script>
+        let currentUser = null;
+
+        const registrationForm = document.getElementById('registrationForm');
+        const loginForm = document.getElementById('loginForm');
+        const recoveryForm = document.getElementById('recoveryForm');
+        const ideaForm = document.getElementById('ideaForm');
+        const ideasList = document.getElementById('ideasList');
+        const goToRegisterButton = document.getElementById('goToRegister');
+        const profileButton = document.getElementById('profileButton');
+        const profilePanel = document.getElementById('profilePanel');
+
+        // Открываем или создаем базу данных
+        const openDatabase = () => {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open('serverIdeasDB', 1);
+
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    if (!db.objectStoreNames.contains('users')) {
+                        db.createObjectStore('users', { keyPath: 'username' });
+                    }
+                    if (!db.objectStoreNames.contains('ideas')) {
+                        db.createObjectStore('ideas', { keyPath: 'id', autoIncrement: true });
+                    }
+                };
+
+                request.onsuccess = (event) => resolve(event.target.result);
+                request.onerror = (event) => reject(event.target.error);
+            });
+        };
+
+        // Получаем все идеи из IndexedDB
+        const loadIdeas = async () => {
+            const db = await openDatabase();
+            const transaction = db.transaction('ideas', 'readonly');
+            const store = transaction.objectStore('ideas');
+            const request = store.getAll();
+
+            request.onsuccess = () => {
+                ideasList.innerHTML = '';
+                request.result.forEach(addIdeaToList);
+            };
+        };
+
+        // Добавляем идею в список и IndexedDB
+        const addIdeaToList = (idea) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${idea.text} (Автор: ${idea.author})`;
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Удалить';
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.onclick = async () => {
+                if (currentUser === idea.author || users[currentUser]?.isAdmin) {
+                    const db = await openDatabase();
+                    const transaction = db.transaction('ideas', 'readwrite');
+                    const store = transaction.objectStore('ideas');
+                    store.delete(idea.id);
+                    loadIdeas();
+                } else {
+                    alert('Вы не можете удалить эту идею!');
+                }
+            };
+            listItem.appendChild(deleteBtn);
+            ideasList.appendChild(listItem);
+        };
+
+        // Сохранение пользователя в IndexedDB
+        const saveUser = async (user) => {
+            const db = await openDatabase();
+            const transaction = db.transaction('users', 'readwrite');
+            const store = transaction.objectStore('users');
+            store.put(user);
+        };
+
+        // Получение пользователя из IndexedDB
+        const getUser = async (username) => {
+            const db = await openDatabase();
+            const transaction = db.transaction('users', 'readonly');
+            const store = transaction.objectStore('users');
+            return new Promise((resolve, reject) => {
+                const request = store.get(username);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject('Пользователь не найден');
+            });
+        };
+
+        // Регистрация
+        registrationForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('regUsername').value;
+            const password = document.getElementById('regPassword').value;
+            const phoneModel = document.getElementById('regPhoneModel').value;
+
+            try {
+                const existingUser = await getUser(username);
+                if (existingUser) {
+                    alert('Пользователь с таким ником уже существует!');
+                    return;
+                }
+            } catch (error) {}
+
+            const newUser = { username, password, phoneModel, isAdmin: false };
+            await saveUser(newUser);
+            alert('Регистрация успешна!');
+            registrationForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        };
+
+        // Вход
+        loginForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const user = await getUser(username);
+                if (user && user.password === password) {
+                    currentUser = username;
+                    alert(`Добро пожаловать, ${username}!`);
+                    loginForm.style.display = 'none';
+                    ideaForm.style.display = 'block';
+                    loadIdeas();
+                } else {
+                    alert('Неверный ник или пароль!');
+                }
+            } catch (error) {
+                alert('Неверный ник или пароль!');
+            }
+        };
+
+        // Восстановление аккаунта
+        recoveryForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('recoverUsername').value;
+            const phoneModel = document.getElementById('recoverPhoneModel').value;
+
+            try {
+                const user = await getUser(username);
+                if (user && user.phoneModel === phoneModel) {
+                    alert(`Ваш пароль: ${user.password}`);
+                    recoveryForm.style.display = 'none';
+                    loginForm.style.display = 'block';
+                } else {
+                    alert('Неверный ник или марка телефона!');
+                }
+            } catch (error) {
+                alert('Неверный ник или марка телефона!');
+            }
+        };
+
+        // Отправка идеи
+        ideaForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const ideaText = document.getElementById('ideaInput').value;
+
+            const idea = { text: ideaText, author: currentUser };
+            const db = await openDatabase();
+            const transaction = db.transaction('ideas', 'readwrite');
+            const store = transaction.objectStore('ideas');
+            store.add(idea);
+            loadIdeas();
+
+            document.getElementById('ideaInput').value = '';
+        };
+
+        // Показ формы восстановления
+        document.getElementById('recoverAccount').onclick = () => {
+            loginForm.style.display = 'none';
+            recoveryForm.style.display = 'block';
+        };
+
+        // Переключение на регистрацию
+        goToRegisterButton.onclick = () => {
+            loginForm.style.display = 'none';
+            registrationForm.style.display = 'block';
+        };
+
+        // Показ/скрытие панели пользователя
+        profileButton.onclick = () => {
+            profilePanel.style.display = profilePanel.style.display === 'none' ? 'block' : 'none';
+        };
+
+        // Редактирование профиля
+        profilePanel.onsubmit = async (e) => {
+            e.preventDefault();
+            const newNickname = document.getElementById('newNickname').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const phoneModel = document.getElementById('profilePhoneModel').value;
+
+            try {
+                const user = await getUser(currentUser);
+                if (user.phoneModel === phoneModel) {
+                    user.username = newNickname || user.username;
+                    user.password = newPassword || user.password;
+                    await saveUser(user);
+                    currentUser = user.username;
+                    alert('Профиль обновлен!');
+                    profilePanel.style.display = 'none';
+                } else {
+                    alert('Неверный контрольный вопрос!');
+                }
+            } catch (error) {
+                alert('Ошибка обновления профиля!');
+            }
+        };
+    </script>
+</body>
+</html>
